@@ -32,6 +32,31 @@ class AuthenticationTest extends TestCase
         $response->assertRedirect(route('dashboard', absolute: false));
     }
 
+    public function test_seeded_admin_accounts_can_log_in_and_reach_the_dashboard()
+    {
+        $this->seed();
+
+        foreach ([
+            ['name' => 'OSA', 'email' => 'osa@lostfound.test'],
+            ['name' => 'Safety Security', 'email' => 'safety.security@lostfound.test'],
+        ] as $account) {
+            $this->assertDatabaseHas('users', [
+                'name' => $account['name'],
+                'email' => $account['email'],
+                'role' => 'admin',
+            ]);
+
+            $response = $this->post(route('login.store'), [
+                'email' => $account['email'],
+                'password' => 'Admin12345',
+            ]);
+
+            $response->assertRedirect(route('dashboard', absolute: false));
+            $this->assertAuthenticated();
+            $this->post(route('logout'));
+        }
+    }
+
     public function test_users_with_two_factor_enabled_are_redirected_to_two_factor_challenge()
     {
         $this->skipUnlessFortifyHas(Features::twoFactorAuthentication());

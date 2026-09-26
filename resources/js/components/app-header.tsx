@@ -42,7 +42,12 @@ type Props = {
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: dashboard(),
+        href: '/dashboard',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Upload Lost Items',
+        href: '/upload-lost-items',
         icon: LayoutGrid,
     },
 ];

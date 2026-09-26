@@ -9,4 +9,11 @@ class dashboard extends Model
 {
     /** @use HasFactory<\Database\Factories\DashboardFactory> */
     use HasFactory;
+    protected $fillable = [
+        'item',
+        'description',
+        'location',
+        'date',
+        'status',
+    ];
 }
